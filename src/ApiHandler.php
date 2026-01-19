@@ -60,6 +60,7 @@ class ApiHandler
         $lines = array_filter(explode("\n", $content), fn($line) => trim($line) !== '');
 
         $inserted = 0;
+        $updated = 0;
         $skipped = 0;
         $errors = 0;
 
@@ -68,11 +69,13 @@ class ApiHandler
             if (empty($line)) continue;
 
             try {
-                if ($this->db->insertVehicle($line)) {
-                    $inserted++;
-                } else {
-                    $skipped++;
-                }
+                $result = $this->db->insertVehicle($line);
+                match ($result) {
+                    'inserted' => $inserted++,
+                    'updated' => $updated++,
+                    'skipped' => $skipped++,
+                    default => $errors++,
+                };
             } catch (\Throwable $e) {
                 $errors++;
             }
@@ -81,6 +84,7 @@ class ApiHandler
         echo json_encode([
             'success' => true,
             'inserted' => $inserted,
+            'updated' => $updated,
             'skipped' => $skipped,
             'errors' => $errors,
             'total_processed' => count($lines),
@@ -89,7 +93,10 @@ class ApiHandler
 
     private function handleGetVehicles(): void
     {
-        $vehicles = $this->db->getAllVehicles();
+        $sortBy = $_GET['sort_by'] ?? null;
+        $sortOrder = $_GET['sort_order'] ?? 'ASC';
+        
+        $vehicles = $this->db->getAllVehicles($sortBy, $sortOrder);
         echo json_encode(['vehicles' => $vehicles], JSON_INVALID_UTF8_SUBSTITUTE);
     }
 

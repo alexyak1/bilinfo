@@ -272,6 +272,7 @@ if (str_starts_with($uri, '/api/')) {
         }
 
         .result-card.inserted .result-number { color: var(--success); }
+        .result-card.updated .result-number { color: var(--accent-primary); }
         .result-card.skipped .result-number { color: var(--warning); }
         .result-card.errors .result-number { color: var(--error); }
         .result-card.total .result-number { color: var(--text-primary); }
@@ -323,6 +324,40 @@ if (str_starts_with($uri, '/api/')) {
             width: 16px;
             height: 16px;
             fill: currentColor;
+        }
+
+        .sort-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            margin-left: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+        }
+
+        .sort-btn:hover {
+            background: var(--bg-hover);
+            color: var(--accent-primary);
+        }
+
+        .sort-btn.active {
+            color: var(--accent-primary);
+        }
+
+        .sort-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .th-sortable {
+            display: inline-flex;
+            align-items: center;
         }
 
         .vehicles-table {
@@ -386,6 +421,172 @@ if (str_starts_with($uri, '/api/')) {
             height: 48px;
             fill: var(--text-muted);
             margin-bottom: 1rem;
+        }
+
+        /* Validation modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .modal-header svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--warning);
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .modal-body p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .issues-list {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .issue-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .issue-item:last-child {
+            border-bottom: none;
+        }
+
+        .issue-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--warning);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .issue-text {
+            color: var(--text-secondary);
+        }
+
+        .issue-text strong {
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-cancel {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .modal-btn-confirm {
+            background: var(--warning);
+            border: none;
+            color: var(--bg-primary);
+        }
+
+        .modal-btn-confirm:hover {
+            background: #e5a722;
+            transform: translateY(-1px);
+        }
+
+        .issues-summary {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .summary-badge .count {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--warning);
         }
 
         /* Loading state */
@@ -464,9 +665,9 @@ if (str_starts_with($uri, '/api/')) {
             <svg class="upload-icon" viewBox="0 0 24 24">
                 <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M12,12L16,16H13.5V19H10.5V16H8L12,12Z" />
             </svg>
-            <p class="upload-title">Drop your vehicle file here. Only text/plain and .txt files are supported.</p>
+            <p class="upload-title">Drop your vehicle file here</p>
             <p class="upload-subtitle">or click to browse • Supports Fordonsfil format</p>
-            <input type="file" class="upload-input" id="fileInput" accept="text/plain,.txt">
+            <input type="file" class="upload-input" id="fileInput">
         </div>
 
         <div class="results-panel" id="resultsPanel">
@@ -481,9 +682,13 @@ if (str_starts_with($uri, '/api/')) {
                     <div class="result-number" id="insertedCount">0</div>
                     <div class="result-label">Inserted</div>
                 </div>
+                <div class="result-card updated">
+                    <div class="result-number" id="updatedCount">0</div>
+                    <div class="result-label">Updated</div>
+                </div>
                 <div class="result-card skipped">
                     <div class="result-number" id="skippedCount">0</div>
-                    <div class="result-label">Skipped (duplicates)</div>
+                    <div class="result-label">Unchanged</div>
                 </div>
                 <div class="result-card errors">
                     <div class="result-number" id="errorsCount">0</div>
@@ -519,7 +724,16 @@ if (str_starts_with($uri, '/api/')) {
                         <th>Chassinummer</th>
                         <th>Modellår</th>
                         <th>Färg</th>
-                        <th>Nästa besiktning</th>
+                        <th>
+                            <span class="th-sortable">
+                                Nästa besiktning
+                                <button class="sort-btn" id="sortBesiktningBtn" title="Sort by next inspection date">
+                                    <svg viewBox="0 0 24 24" id="sortIcon">
+                                        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                    </svg>
+                                </button>
+                            </span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="vehiclesBody">
@@ -535,6 +749,28 @@ if (str_starts_with($uri, '/api/')) {
         </section>
     </div>
 
+    <!-- Validation Warning Modal -->
+    <div class="modal-overlay" id="validationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <svg viewBox="0 0 24 24">
+                    <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
+                </svg>
+                <span class="modal-title">Data Validation Warning</span>
+            </div>
+            <div class="modal-body">
+                <p>The uploaded file contains data that may have issues:</p>
+                <div class="issues-summary" id="issuesSummary"></div>
+                <div class="issues-list" id="issuesList"></div>
+                <p><strong>Do you want to save this data anyway?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" id="modalCancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="modalConfirm">Save Anyway</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const uploadZone = document.getElementById('uploadZone');
         const fileInput = document.getElementById('fileInput');
@@ -545,6 +781,17 @@ if (str_starts_with($uri, '/api/')) {
         const loading = document.getElementById('loading');
         const totalVehicles = document.getElementById('totalVehicles');
         const refreshBtn = document.getElementById('refreshBtn');
+        const sortBesiktningBtn = document.getElementById('sortBesiktningBtn');
+        const sortIcon = document.getElementById('sortIcon');
+        const validationModal = document.getElementById('validationModal');
+        const modalCancel = document.getElementById('modalCancel');
+        const modalConfirm = document.getElementById('modalConfirm');
+        const issuesList = document.getElementById('issuesList');
+        const issuesSummary = document.getElementById('issuesSummary');
+
+        // Sorting state
+        let currentSort = { column: null, order: 'ASC' };
+        let pendingUploadFile = null;
 
         // Drag and drop handling
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
@@ -569,16 +816,227 @@ if (str_starts_with($uri, '/api/')) {
         uploadZone.addEventListener('drop', e => {
             const files = e.dataTransfer.files;
             if (files.length > 0) {
-                uploadFile(files[0]);
+                handleFileSelection(files[0]);
             }
         });
 
         uploadZone.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', e => {
             if (e.target.files.length > 0) {
-                uploadFile(e.target.files[0]);
+                handleFileSelection(e.target.files[0]);
             }
         });
+
+        // Modal handlers
+        modalCancel.addEventListener('click', () => {
+            validationModal.classList.remove('show');
+            pendingUploadFile = null;
+            fileInput.value = '';
+        });
+
+        modalConfirm.addEventListener('click', async () => {
+            validationModal.classList.remove('show');
+            if (pendingUploadFile) {
+                await uploadFile(pendingUploadFile);
+                pendingUploadFile = null;
+            }
+        });
+
+        // Close modal on overlay click
+        validationModal.addEventListener('click', (e) => {
+            if (e.target === validationModal) {
+                validationModal.classList.remove('show');
+                pendingUploadFile = null;
+                fileInput.value = '';
+            }
+        });
+
+        // Validate file is text by checking for binary characters
+        async function validateTextFile(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                // Read first 8KB to check for binary content
+                const slice = file.slice(0, 8192);
+                
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    // Check for null bytes or other binary indicators
+                    const hasBinaryChars = /[\x00-\x08\x0E-\x1F]/.test(content);
+                    resolve(!hasBinaryChars);
+                };
+                
+                reader.onerror = () => resolve(false);
+                reader.readAsText(slice);
+            });
+        }
+
+        /**
+         * Parse a vehicle line and check for validation issues
+         * Based on the format specification:
+         * - Modellår (year): position 27, length 4 (0-indexed: 26-29)
+         * - Färg (color): position 59, length 20 (0-indexed: 58-77)
+         * - Nästa besiktning: position 87, length 8 (0-indexed: 86-93)
+         */
+        function validateVehicleLine(line, lineNumber) {
+            const issues = [];
+            
+            if (line.length < 79) {
+                return issues; // Line too short, will be rejected by backend anyway
+            }
+
+            const identitet = line.substring(0, 7).trim();
+            
+            // Check Modellår (year) - position 27, length 4
+            const modellarStr = line.substring(26, 30).trim();
+            const modellar = parseInt(modellarStr, 10);
+            const currentYear = new Date().getFullYear();
+            
+            // Year should be 4 digits and reasonable (1900 to current year + 5)
+            if (modellarStr.length < 4 || isNaN(modellar) || modellar < 1900 || modellar > currentYear + 5) {
+                issues.push({
+                    type: 'year',
+                    line: lineNumber,
+                    identitet: identitet,
+                    value: modellarStr,
+                    message: `Invalid year "${modellarStr}"`
+                });
+            }
+
+            // Check Färg (color) - position 59, length 20
+            const farg = line.substring(58, 78).trim();
+            if (!farg || farg.length === 0) {
+                issues.push({
+                    type: 'color',
+                    line: lineNumber,
+                    identitet: identitet,
+                    value: '(empty)',
+                    message: 'Missing color (Färg)'
+                });
+            }
+
+            // Check Nästa besiktning - position 87, length 8
+            if (line.length >= 94) {
+                const nastaBesiktning = line.substring(86, 94).trim();
+                if (!nastaBesiktning || nastaBesiktning === '00000000' || nastaBesiktning.length < 8) {
+                    issues.push({
+                        type: 'inspection',
+                        line: lineNumber,
+                        identitet: identitet,
+                        value: nastaBesiktning || '(empty)',
+                        message: 'Missing next inspection date (Nästa besiktning)'
+                    });
+                }
+            } else {
+                issues.push({
+                    type: 'inspection',
+                    line: lineNumber,
+                    identitet: identitet,
+                    value: '(missing)',
+                    message: 'Missing next inspection date (Nästa besiktning)'
+                });
+            }
+
+            return issues;
+        }
+
+        /**
+         * Validate entire file content
+         */
+        async function validateFileContent(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    const lines = content.split(/\r?\n/).filter(line => line.trim().length > 0);
+                    const allIssues = [];
+                    
+                    lines.forEach((line, index) => {
+                        const lineIssues = validateVehicleLine(line, index + 1);
+                        allIssues.push(...lineIssues);
+                    });
+                    
+                    resolve({
+                        totalLines: lines.length,
+                        issues: allIssues
+                    });
+                };
+                
+                reader.onerror = () => resolve({ totalLines: 0, issues: [] });
+                reader.readAsText(file);
+            });
+        }
+
+        /**
+         * Show validation modal with issues
+         */
+        function showValidationModal(validationResult) {
+            const { issues } = validationResult;
+            
+            // Count issues by type
+            const yearIssues = issues.filter(i => i.type === 'year').length;
+            const colorIssues = issues.filter(i => i.type === 'color').length;
+            const inspectionIssues = issues.filter(i => i.type === 'inspection').length;
+            
+            // Build summary
+            let summaryHtml = '';
+            if (yearIssues > 0) {
+                summaryHtml += `<div class="summary-badge"><span class="count">${yearIssues}</span> invalid year(s)</div>`;
+            }
+            if (colorIssues > 0) {
+                summaryHtml += `<div class="summary-badge"><span class="count">${colorIssues}</span> missing color(s)</div>`;
+            }
+            if (inspectionIssues > 0) {
+                summaryHtml += `<div class="summary-badge"><span class="count">${inspectionIssues}</span> missing inspection(s)</div>`;
+            }
+            issuesSummary.innerHTML = summaryHtml;
+            
+            // Build issues list (show max 20 for readability)
+            const displayIssues = issues.slice(0, 20);
+            let listHtml = displayIssues.map(issue => `
+                <div class="issue-item">
+                    <svg class="issue-icon" viewBox="0 0 24 24">
+                        <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z" />
+                    </svg>
+                    <span class="issue-text">
+                        Line ${issue.line} (<strong>${issue.identitet}</strong>): ${issue.message} — value: <strong>${issue.value}</strong>
+                    </span>
+                </div>
+            `).join('');
+            
+            if (issues.length > 20) {
+                listHtml += `<div class="issue-item" style="color: var(--text-muted); font-style: italic;">
+                    ... and ${issues.length - 20} more issue(s)
+                </div>`;
+            }
+            
+            issuesList.innerHTML = listHtml;
+            validationModal.classList.add('show');
+        }
+
+        /**
+         * Handle file selection - validate first, then upload or show warning
+         */
+        async function handleFileSelection(file) {
+            // First validate that file is a text file
+            const isTextFile = await validateTextFile(file);
+            if (!isTextFile) {
+                alert('Invalid file type. Please upload a text file only.');
+                return;
+            }
+
+            // Validate file content
+            const validationResult = await validateFileContent(file);
+            
+            if (validationResult.issues.length > 0) {
+                // Show modal and wait for user decision
+                pendingUploadFile = file;
+                showValidationModal(validationResult);
+            } else {
+                // No issues, upload directly
+                await uploadFile(file);
+            }
+        }
 
         async function uploadFile(file) {
             const formData = new FormData();
@@ -597,6 +1055,7 @@ if (str_starts_with($uri, '/api/')) {
 
                 if (result.success) {
                     document.getElementById('insertedCount').textContent = result.inserted;
+                    document.getElementById('updatedCount').textContent = result.updated;
                     document.getElementById('skippedCount').textContent = result.skipped;
                     document.getElementById('errorsCount').textContent = result.errors;
                     document.getElementById('totalProcessed').textContent = result.total_processed;
@@ -624,7 +1083,11 @@ if (str_starts_with($uri, '/api/')) {
             emptyState.style.display = 'none';
 
             try {
-                const response = await fetch('/api/vehicles');
+                let url = '/api/vehicles';
+                if (currentSort.column) {
+                    url += `?sort_by=${currentSort.column}&sort_order=${currentSort.order}`;
+                }
+                const response = await fetch(url);
                 const data = await response.json();
 
                 vehiclesBody.innerHTML = '';
@@ -682,6 +1145,31 @@ if (str_starts_with($uri, '/api/')) {
         refreshBtn.addEventListener('click', async () => {
             await loadVehicles();
             await loadStats();
+        });
+
+        // Sort by Nästa besiktning
+        sortBesiktningBtn.addEventListener('click', async () => {
+            if (currentSort.column === 'nasta_besiktning') {
+                // Toggle order
+                currentSort.order = currentSort.order === 'ASC' ? 'DESC' : 'ASC';
+            } else {
+                currentSort.column = 'nasta_besiktning';
+                currentSort.order = 'ASC';
+            }
+            
+            // Update button appearance
+            sortBesiktningBtn.classList.add('active');
+            
+            // Update icon direction
+            if (currentSort.order === 'ASC') {
+                sortIcon.innerHTML = '<path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />';
+                sortBesiktningBtn.title = 'Sorted by soonest first - click to reverse';
+            } else {
+                sortIcon.innerHTML = '<path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />';
+                sortBesiktningBtn.title = 'Sorted by latest first - click to reverse';
+            }
+            
+            await loadVehicles();
         });
 
         // Initial load
