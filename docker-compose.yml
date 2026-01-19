@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bilinfo-app
+    volumes:
+      - .:/var/www/html
+      - ./data:/var/www/html/data
+    working_dir: /var/www/html
+    ports:
+      - "8080:80"
+    tty: true
